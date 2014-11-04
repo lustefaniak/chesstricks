@@ -1,4 +1,4 @@
-import org.apache.spark.util.collection.BitSet
+import scala.collection.immutable.BitSet
 
 object Position {
 
@@ -37,11 +37,8 @@ case class Board(val X:Int, val Y:Int) {
   @inline
   def bitToPosition(bit:Int) : Option[Position] =  mapToValidPosition(Position(bit % X, Math.floor(bit / X).toInt))
 
-  def encodePositionsInBitset(positions:Seq[Position]):BitSet = {
-    val bitset = new BitSet(X*Y)
-    val bits = positions.flatMap(positionToBit).foreach(bitset.set(_))
-    bitset
-  }
+  def encodePositionsInBitset(positions:Seq[Position]):BitSet = BitSet(positions.flatMap(positionToBit).toSeq: _*)
+
 }
 
 object Piece {

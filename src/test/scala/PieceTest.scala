@@ -131,5 +131,4 @@ class PieceTest extends FlatSpec with Matchers {
 
   }
 
-
 }

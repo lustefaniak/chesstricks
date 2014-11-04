@@ -1,4 +1,4 @@
-import org.apache.spark.util.collection.BitSet
+import scala.collection.immutable.BitSet
 
 case class PieceCaptures(piece:Piece)(implicit board:Board) {
 

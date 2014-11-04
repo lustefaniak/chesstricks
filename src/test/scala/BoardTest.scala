@@ -1,3 +1,4 @@
+import scala.collection.immutable.BitSet
 import org.scalatest.{FlatSpec, Matchers}
 
 
@@ -9,9 +10,7 @@ class BoardTest extends FlatSpec with Matchers {
 
     val encoded = board.encodePositionsInBitset(positions)
 
-    encoded.get(0) should be (true)
-    encoded.get(4) should be (true)
-    encoded.get(8) should be (true)
+    encoded should be (BitSet(0,4,8))
 
   }
 
