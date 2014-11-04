@@ -6,7 +6,7 @@ import scala.collection.BitSet
 class PieceTest extends FlatSpec with Matchers {
   import Piece._
 
-  implicit val board = Board(8,8)
+  implicit val board = Board.default
 
   "movedInAllDirectionsByOneField" should "move to all the fields in 3x3 from center" in {
     implicit val smallerBoard = Board(3,3)
@@ -54,7 +54,7 @@ class PieceTest extends FlatSpec with Matchers {
 
   it should "generate distinct moves" in {
     val position = Position(1,1)
-    (movesHorizontally(position) distinct) should be (movesHorizontally(position))
+    (movesHorizontally(position)) should be (movesHorizontally(position) distinct)
   }
 
   "movesDiagonally" should "move from 0,0 to n,n" in {
@@ -109,7 +109,8 @@ class PieceTest extends FlatSpec with Matchers {
     val king = King
     val board = Board(3, 3)
     val position = Position(1,1)
-    queen.possibleMoves(position)(board) should equal (king.possibleMoves(position)(board))
+    //FIXME: change macher to the one ignoring order or do diff?
+    queen.possibleMoves(position)(board).sorted should equal (king.possibleMoves(position)(board).sorted)
   }
 
   it should "be move by one in every direction" in {
@@ -117,28 +118,8 @@ class PieceTest extends FlatSpec with Matchers {
     val king = King
     val board = Board(3, 3)
     val position = Position(1,1)
-    queen.possibleMoves(position)(board) should equal (Piece.movedInAllDirectionsByOneField(position)(board))
+    //FIXME: change macher to the one ignoring order or do diff?
+    queen.possibleMoves(position)(board).sorted should equal (Piece.movedInAllDirectionsByOneField(position)(board).sorted)
   }
-
-  "Board" should "properly translate Position to bit on 3x3" in {
-    val board = Board(3,3)
-    board.positionToBit(Position(0,0)) should be (0)
-    board.positionToBit(Position(1,1)) should be (4)
-    board.positionToBit(Position(2,2)) should be (8)
-  }
-
-  it should "encode bits for small board 3x3" in {
-    val board = Board(3,3)
-    val positions = Seq(Position(0,0),Position(1,1),Position(2,2))
-
-    val encoded = board.encodePositionsInBitset(positions)
-
-    encoded.get(0) should be (true)
-    encoded.get(4) should be (true)
-    encoded.get(8) should be (true)
-
-  }
-
-
 
 }

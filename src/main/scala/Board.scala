@@ -1,30 +1,48 @@
 import org.apache.spark.util.collection.BitSet
 
+object Position {
+
+  implicit def ordering[A <: Position]: Ordering[A] = Ordering.by(e => (e.x,e.y))
+
+}
+
+case class Position(x:Int, y:Int)
+
+case class Move(deltaX:Int, deltaY:Int)
+
+object Board {
+  def default = Board(8, 8)
+}
+
 case class Board(val X:Int, val Y:Int) {
   require(X > 0)
   require(Y > 0)
 
   def numberOfFields = X*Y
 
+  def mapToValidPosition(position:Position):Option[Position] = {
+    if(position.x >= 0 && position.x < X && position.y >= 0 && position.y < Y)
+      Some(position)
+    else None
+  }
+
   def applyMoveToPosition(move:Move, currentPosition:Position):Option[Position] =
     Option(currentPosition.copy(x = currentPosition.x + move.deltaX, currentPosition.y + move.deltaY)).filter{
       case p=>
         p.x >= 0 && p.x < X && p.y >= 0 && p.y < Y   }
 
-  def positionToBit(position:Position) : Int = {
-    position.y * X + position.x
-  }
+  @inline
+  def positionToBit(position:Position) : Option[Int] = mapToValidPosition(position).map(pos=> pos.y * X + pos.x)
+
+  @inline
+  def bitToPosition(bit:Int) : Option[Position] =  mapToValidPosition(Position(bit % X, Math.floor(bit / X).toInt))
 
   def encodePositionsInBitset(positions:Seq[Position]):BitSet = {
     val bitset = new BitSet(X*Y)
-    val bits = positions.map(positionToBit).foreach(bitset.set(_))
+    val bits = positions.flatMap(positionToBit).foreach(bitset.set(_))
     bitset
   }
 }
-
-case class Position(x:Int, y:Int)
-
-case class Move(deltaX:Int, deltaY:Int)
 
 object Piece {
   def movesHorizontally(position:Position)(implicit board:Board) : Seq[Position] = for {
