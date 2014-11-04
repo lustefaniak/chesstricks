@@ -22,3 +22,7 @@ packageArchetype.java_application
 Revolver.settings
 
 instrumentSettings
+
+ScoverageKeys.highlighting := true
+
+ScoverageKeys.excludedPackages in ScoverageCompile := "org.apache.spark.util.collection.*"
