@@ -114,7 +114,22 @@ object Rock extends Piece {
 }
 
 object Knight extends Piece {
-  override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = ???
+  override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = {
+
+    val moves = Seq(
+      Move(-1,2),
+      Move(1,2),
+      Move(2,-1),
+      Move(2,1),
+      Move(1,-2),
+      Move(-1,-2),
+      Move(-2, -1),
+      Move(-2,1)
+    )
+
+    moves.flatMap(board.applyMoveToPosition(_,position))
+
+  }
 
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = numberOf * 8
 }

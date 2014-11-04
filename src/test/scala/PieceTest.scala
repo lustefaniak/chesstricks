@@ -122,4 +122,14 @@ class PieceTest extends FlatSpec with Matchers {
     queen.possibleMoves(position)(board).sorted should equal (Piece.movedInAllDirectionsByOneField(position)(board).sorted)
   }
 
+
+  "Knight moves" should "at least have correct number" in {
+    val knight = Knight
+    val board = Board(5,5)
+    val position = Position(2,2)
+    knight.possibleMoves(position)(board) should have size (8)
+
+  }
+
+
 }
