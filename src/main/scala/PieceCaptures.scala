@@ -1,8 +1,8 @@
 import scala.collection.immutable.BitSet
 
-case class PieceCaptures(piece:Piece)(implicit board:Board) {
+object PieceCaptures {
 
-  def generateCaptures: Map[Int, BitSet] = {
+  def generate(piece: Piece)(implicit board: Board): Map[Int, BitSet] = {
     val allPossibleFieldsAsBits = 0 until board.numberOfFields
 
     val capturesFromPositions = for {
@@ -17,11 +17,4 @@ case class PieceCaptures(piece:Piece)(implicit board:Board) {
     capturesFromPositions.toMap
 
   }
-
-  def from(position:Position) = board.positionToBit(position).flatMap(b=>captures.get(b))
-
-  def from(bit:Int) = captures.get(bit)
-
-  lazy val captures: Map[Int,BitSet] = generateCaptures
-
 }

@@ -11,9 +11,13 @@ object ChessTricks extends App {
     Knight -> 1
   )
 
+  val firstToPrint = 100
+
   val solutions = solver.solve(examplePieces)
 
-  println(solutions.size)
-
-  //solutions foreach (s=>board.prettyPrint(s.combinations))
+  println(s"Example 7x7 has ${solutions.size} solutions")
+  println(s"First $firstToPrint are:")
+  solutions.take(firstToPrint).foreach {
+    solution => board.prettyPrint(solution.combinations)
+  }
 }

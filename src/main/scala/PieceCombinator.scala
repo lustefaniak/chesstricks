@@ -2,31 +2,27 @@ import scala.collection.immutable.BitSet
 
 object PieceCombinator {
 
-  case class Combination(positionsPlaced:BitSet, availablePlaces:BitSet)
+  case class Combination(positionsPlaced: BitSet, availablePlaces: BitSet)
 
 }
 
-case class PieceCombinator(piece:Piece, numberOf:Int, implicit val board:Board) {
+case class PieceCombinator(piece: Piece, numberOf: Int, implicit val board: Board) {
+
   import PieceCombinator._
 
-  lazy val captures = PieceCaptures(piece)(board).captures
+  lazy val captures = board.pieceCaptures(piece)
 
-  def bitsetWithAllFields:BitSet = board.bitsetWithAllFields
-
-  def recursiveCombinations(piecesLeftToPut:Int, availablePlaces:BitSet, alreadyPlacedPieces:BitSet = BitSet(), resultAccumulator:BitSet = BitSet()):Stream[BitSet] = {
-    if ( piecesLeftToPut == 0 ) {
-      //FIXME: we should return availablePlaces from here, but that would require additional parameter or better earlier recursion breaking
+  def recursiveCombinations(piecesLeftToPut: Int, availablePlaces: BitSet, alreadyPlacedPieces: BitSet = BitSet(), resultAccumulator: BitSet = BitSet()): Stream[BitSet] = {
+    if (piecesLeftToPut == 0) {
+      //FIXME: we could return availablePlaces from here, but that would require additional parameter passing or better earlier recursion breaking
       Stream(resultAccumulator)
     } else {
       (availablePlaces &~ alreadyPlacedPieces).toStream.flatMap {
         bit =>
-          val capturesFromHere = captures(bit)
-
-          val intersectedPieces = alreadyPlacedPieces & capturesFromHere
-          if (intersectedPieces.isEmpty) {
-            val newAvailablePlaces = (availablePlaces &~ capturesFromHere) filter (_ > bit)
+          val alreadyPlacedIntersections = alreadyPlacedPieces & captures(bit)
+          if (alreadyPlacedIntersections.isEmpty) {
+            val newAvailablePlaces = (availablePlaces &~ captures(bit)) filter (_ > bit)
             recursiveCombinations(piecesLeftToPut - 1, newAvailablePlaces, alreadyPlacedPieces + bit, resultAccumulator + bit)
-
           } else {
             Stream.empty
           }
@@ -34,28 +30,21 @@ case class PieceCombinator(piece:Piece, numberOf:Int, implicit val board:Board) 
     }
   }
 
-  def combinationsOfPlaces(availablePlaces:BitSet = bitsetWithAllFields, alreadyPlacedPieces:BitSet = BitSet()) : Stream[BitSet] = {
-    if(numberOf <= 0 ) Stream.empty else {
+  def combine(availablePlaces: BitSet = board.bitsetWithAllFields, alreadyPlacedPieces: BitSet = BitSet()): Stream[BitSet] = {
+    if (numberOf <= 0) {
+      Stream.empty
+    } else {
       recursiveCombinations(numberOf, availablePlaces, alreadyPlacedPieces)
     }
   }
 
-  def combinationsOfPlacesWithAvailables(availablePlaces:BitSet = bitsetWithAllFields, alreadyPlacedPieces:BitSet = BitSet()) : Stream[Combination] = {
-    if(numberOf <= 0 ) Stream.empty else {
-      val results = recursiveCombinations(numberOf, availablePlaces, alreadyPlacedPieces)
-
-      results.map {
-        case positions:BitSet =>
-          var available:BitSet = bitsetWithAllFields &~ positions
-          positions.foreach(i=> available = available &~ captures(i))
-
-          Combination(positions, available)
-      }
-
-
+  def combineReturningAvailablePlaces(availablePlaces: BitSet = board.bitsetWithAllFields, alreadyPlacedPieces: BitSet = BitSet()): Stream[Combination] = {
+    combine(availablePlaces, alreadyPlacedPieces).map {
+      case positions: BitSet =>
+        var newAvailable: BitSet = availablePlaces &~ positions
+        positions.foreach(i => newAvailable = newAvailable &~ captures(i))
+        Combination(positions, newAvailable)
     }
   }
-
-
 
 }

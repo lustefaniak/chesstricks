@@ -8,15 +8,14 @@ class PieceCapturesTest extends FlatSpec with Matchers {
 
   "PieceCaptures" should "create X*Y Bitmaps" in {
 
-    PieceCaptures(King).captures should have size (board.X * board.Y)
+    PieceCaptures.generate(King) should have size (board.X * board.Y)
 
   }
-
 
   Pieces.get foreach {
     piece=>
       it should s"work for ${piece.getClass} piece" in {
-        PieceCaptures(piece).captures should have size (board.X * board.Y)
+        PieceCaptures.generate(piece) should have size (board.X * board.Y)
     }
   }
 }

@@ -5,7 +5,13 @@ import scala.collection.immutable.BitSet
 
 class SolverTest extends FlatSpec with Matchers {
 
-  "solve" should "work for example case#1" in {
+  "solve" should "return empty result for none pieces" in {
+    val board = Board(3,3)
+    val solver = Solver(board)
+    solver.solve(Map()) should have size (0)
+  }
+
+  it should "work for example case#1" in {
 
     val board = Board(3,3)
     val solver = Solver(board)
