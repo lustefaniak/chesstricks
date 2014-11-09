@@ -17,6 +17,8 @@ libraryDependencies ++= {
   )
 }
 
+libraryDependencies += "org.rogach" %% "scallop" % "0.9.5"
+
 resolvers += Resolver.sonatypeRepo("releases")
 
 packageArchetype.java_application
