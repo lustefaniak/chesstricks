@@ -1,15 +1,32 @@
 import org.scalatest.{FlatSpec, Matchers}
+import org.scalamock.scalatest.MockFactory
 
 import scala.collection.immutable.BitSet
 
 
-class SolverTest extends FlatSpec with Matchers {
+class SolverTest extends FlatSpec with Matchers with MockFactory{
 
   "solve" should "return empty result for none pieces" in {
     val board = Board(3,3)
     val solver = Solver(board)
     solver.solve(Map()) should have size (0)
   }
+
+  it should "sort pieces using some alghorithm" in {
+    val board = Board(3,3)
+    val piecesToSolve = Map[Piece,Int](King -> 1, Rock -> 1)
+
+    val orderer = mock[SolverPieceOrderer]
+    (orderer.sortPieces _).expects(piecesToSolve, board).returning(piecesToSolve.toList)
+
+    val solver = new Solver(board) with SolverPieceOrderer {
+      override def sortPieces(pieces: Map[Piece, Int], board: Board): List[(Piece, Int)] = orderer.sortPieces(pieces, board)
+    }
+
+    solver.solve(piecesToSolve)
+
+  }
+
 
   it should "work for example case#1" in {
 

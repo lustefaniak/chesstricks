@@ -13,9 +13,11 @@ scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-featur
 libraryDependencies ++= {
   Seq(
     "org.scalatest" %% "scalatest" % "2.2.2" % "test",
-    "org.scalacheck" %% "scalacheck" % "1.11.5" % "test"
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.1.4" % "test"
   )
 }
+
+resolvers += Resolver.sonatypeRepo("releases")
 
 packageArchetype.java_application
 

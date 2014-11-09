@@ -6,7 +6,17 @@ object Solver {
 
 }
 
-case class Solver(val board: Board) {
+trait SolverPieceOrderer {
+
+  def sortPieces(pieces: Map[Piece, Int], board:Board) = pieces.toList.sortBy {
+    case (piece, numberOf) =>
+      val estimate = piece.estimateAverageCapturedFields(numberOf)(board)
+      //println(s"$piece $numberOf $estimate")
+      -estimate
+  }
+}
+
+case class Solver(val board: Board) extends SolverPieceOrderer{
 
   import Solver._
 
@@ -28,15 +38,8 @@ case class Solver(val board: Board) {
 
   }
 
-  def sortPieces(pieces: Map[Piece, Int]) = pieces.toList.sortBy {
-    case (piece, numberOf) =>
-      val estimate = piece.estimateAverageCapturedFields(numberOf)(board)
-      //println(s"$piece $numberOf $estimate")
-      -estimate
-  }
-
   def solve(pieces: Map[Piece, Int]): Stream[Solution] = {
-    recursiveSolver(sortPieces(pieces))
+    recursiveSolver(sortPieces(pieces, board))
   }
 
 }
