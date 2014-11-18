@@ -41,7 +41,7 @@ case class Board(val X: Int, val Y: Int) extends Output{
 
   def encodePositionsInBitset(positions: Seq[Position]): BitSet = BitSet(positions.flatMap(positionToBit).toSeq: _*)
 
-  def prettyBoardGen(combinations: Map[Piece, BitSet]) = {
+  def prettyBoardGen(combinations: Map[Piece, BitSet]):Seq[String] = {
 
     val buffer = (" " * numberOfFields).toCharArray
 
@@ -53,11 +53,10 @@ case class Board(val X: Int, val Y: Int) extends Output{
         }
     }
 
-    var result = "+" + ("-" * X) + "+" :: buffer.sliding(X, X).toSeq.reverse.map(l => "|" + l.mkString + "|").toList ::: "+" + ("-" * X) + "+" :: Nil
-    result
+    "+" + ("-" * X) + "+" :: buffer.sliding(X, X).toSeq.reverse.map(l => "|" + l.mkString + "|").toList ::: "+" + ("-" * X) + "+" :: Nil
   }
 
-  def prettyPrint(combinations: Map[Piece, BitSet]) = {
+  def prettyPrint(combinations: Map[Piece, BitSet]):Unit = {
     output(prettyBoardGen(combinations).mkString("\n"))
   }
 

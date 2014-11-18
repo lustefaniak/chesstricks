@@ -24,10 +24,10 @@ class PieceCombinatorTest extends FlatSpec with Matchers {
   }
 
   it should "work well with Rock" in {
-    PieceCombinator(Rock, 1, smallBoard).combine() should have size (9)
-    PieceCombinator(Rock, 2, smallBoard).combine() should have size (18)
-    PieceCombinator(Rock, 3, smallBoard).combine() should have size (6)
-    PieceCombinator(Rock, 4, smallBoard).combine() should have size (0)
+    PieceCombinator(Rook, 1, smallBoard).combine() should have size (9)
+    PieceCombinator(Rook, 2, smallBoard).combine() should have size (18)
+    PieceCombinator(Rook, 3, smallBoard).combine() should have size (6)
+    PieceCombinator(Rook, 4, smallBoard).combine() should have size (0)
   }
 
   it should "work well with Bishop" in {

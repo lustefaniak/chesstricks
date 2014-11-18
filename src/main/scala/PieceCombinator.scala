@@ -12,7 +12,8 @@ case class PieceCombinator(piece: Piece, numberOf: Int, implicit val board: Boar
 
   lazy val captures = board.pieceCaptures(piece)
 
-  protected def recursiveCombinations(piecesLeftToPut: Int, availablePlaces: BitSet, alreadyPlacedPieces: BitSet = BitSet(), resultAccumulator: BitSet = BitSet()): Stream[BitSet] = {
+  protected def recursiveCombinations(piecesLeftToPut: Int, availablePlaces: BitSet, alreadyPlacedPieces: BitSet = BitSet(),
+                                      resultAccumulator: BitSet = BitSet()): Stream[BitSet] = {
     if (piecesLeftToPut == 0) {
       //FIXME: we could return availablePlaces from here, but that would require additional parameter passing or better earlier recursion breaking
       Stream(resultAccumulator)

@@ -1,5 +1,3 @@
-import com.typesafe.sbt.SbtNativePackager.Universal
-
 organization := "pl.relationsystems.scalac"
 
 name := "chesstricks"
@@ -28,3 +26,5 @@ Revolver.settings
 instrumentSettings
 
 ScoverageKeys.highlighting := true
+
+wartremoverErrors ++= Warts.all

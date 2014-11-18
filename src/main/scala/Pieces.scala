@@ -67,7 +67,7 @@ object Bishop extends Piece {
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = (numberOf * 2 * (board.X + board.Y - 2) / 2) toInt
 }
 
-object Rock extends Piece {
+object Rook extends Piece {
   override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = Piece.movesAlongRankAndFile(position)(board)
 
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = numberOf * (board.X + board.Y - 2)
@@ -97,6 +97,6 @@ object Knight extends Piece {
 }
 
 object Pieces {
-  def get = List(Queen, Bishop, Rock, King, Knight)
+  def get = List(Queen, Bishop, Rook, King, Knight)
 }
 

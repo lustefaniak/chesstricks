@@ -43,7 +43,9 @@ case class Solver(val board: Board) extends SolverPieceOrderer{
    * @param solutionAccumulator
    * @return
    */
-  protected def recursiveSolver(piecesLeftToPut: List[(Piece, Int)], availablePlaces: BitSet = board.bitsetWithAllFields, alreadyPlacedPieces: BitSet = BitSet(), solutionAccumulator: Map[Piece, BitSet] = Map()): Stream[Solution] = piecesLeftToPut match {
+  protected def recursiveSolver(piecesLeftToPut: List[(Piece, Int)], availablePlaces: BitSet = board.bitsetWithAllFields,
+                                alreadyPlacedPieces: BitSet = BitSet(), solutionAccumulator: Map[Piece, BitSet] = Map()
+                                 ): Stream[Solution] = piecesLeftToPut match {
 
     case (piece, numberOf) :: rest =>
       val leftToPut = rest.map(_._2).sum

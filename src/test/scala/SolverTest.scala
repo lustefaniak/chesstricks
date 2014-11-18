@@ -14,7 +14,7 @@ class SolverTest extends FlatSpec with Matchers with MockFactory{
 
   it should "sort pieces using some alghorithm" in {
     val board = Board(3,3)
-    val piecesToSolve = Map[Piece,Int](King -> 1, Rock -> 1)
+    val piecesToSolve = Map[Piece,Int](King -> 1, Rook -> 1)
 
     val orderer = mock[SolverPieceOrderer]
     (orderer.sortPieces _).expects(piecesToSolve, board).returning(piecesToSolve.toList)
@@ -35,7 +35,7 @@ class SolverTest extends FlatSpec with Matchers with MockFactory{
 
     val examplePieces = Map(
       King -> 2,
-      Rock -> 1
+      Rook -> 1
     )
 
     val solutions = solver.solve(examplePieces)
@@ -50,7 +50,7 @@ class SolverTest extends FlatSpec with Matchers with MockFactory{
     val solver = Solver(board)
 
     val examplePieces = Map(
-      Rock -> 2,
+      Rook -> 2,
       Knight -> 4
     )
 

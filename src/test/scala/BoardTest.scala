@@ -57,7 +57,7 @@ class BoardTest extends FlatSpec with Matchers {
 
   "prettyBoardGen" should "generate example visualisation" in {
     val board = Board(3,3)
-    val exampleSolution = Map[Piece,BitSet](King -> BitSet(0, 2), Rock -> BitSet(7))
+    val exampleSolution = Map[Piece,BitSet](King -> BitSet(0, 2), Rook -> BitSet(7))
 
     val expectedOutput = List("+---+",
                               "| R |",
@@ -78,7 +78,7 @@ class BoardTest extends FlatSpec with Matchers {
 
   "prettyPrint" should "generate proper output for example visualisation" in {
     val board = new Board(3,3) with MockOutput
-    val exampleSolution = Map[Piece,BitSet](King -> BitSet(0, 2), Rock -> BitSet(7))
+    val exampleSolution = Map[Piece,BitSet](King -> BitSet(0, 2), Rook -> BitSet(7))
     val expectedOutput = "+---+\n| R |\n|   |\n|K K|\n+---+"
     board.prettyPrint(exampleSolution)
 

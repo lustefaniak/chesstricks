@@ -3,11 +3,11 @@ import org.rogach.scallop._
 class Conf(args: Seq[String]) extends ScallopConf(args) {
 
   def greaterThanZero(size: Int): Boolean = {
-    if (size > 0) true else false
+    size > 0
   }
 
   def greaterEqualZero(size: Int): Boolean = {
-    if (size >= 0) true else false
+    size >= 0
   }
 
   banner( """Usage: chesstricks <options>
@@ -15,14 +15,13 @@ class Conf(args: Seq[String]) extends ScallopConf(args) {
             |Options:
             | """.stripMargin)
 
-
   lazy val boardX = opt[Int](short = 'X', validate = greaterThanZero, default = Some(7))
   lazy val boardY = opt[Int](short = 'Y', validate = greaterThanZero, default = Some(7))
   lazy val kings = opt[Int](short = 'K', validate = greaterEqualZero, default = Some(2))
   lazy val queens = opt[Int](short = 'Q', validate = greaterEqualZero, default = Some(2))
   lazy val bishops = opt[Int](short = 'B', validate = greaterEqualZero, default = Some(2))
   lazy val knights = opt[Int](short = 'k', validate = greaterEqualZero, default = Some(1))
-  lazy val rocks = opt[Int](short = 'T', validate = greaterEqualZero, default = Some(0))
+  lazy val rooks = opt[Int](short = 'R', validate = greaterEqualZero, default = Some(0))
 
   lazy val printFirst = opt[Int](validate = greaterEqualZero, default = Some(10))
   lazy val showNumberOfSolutions = toggle(default = Some(true))
@@ -43,7 +42,7 @@ object ChessTricks {
       Queen -> conf.queens(),
       Bishop -> conf.bishops(),
       Knight -> conf.knights(),
-      Rock -> conf.rocks()
+      Rook -> conf.rooks()
     ).filter(_._2 > 0)
 
     if (pieces.size > 0) {
