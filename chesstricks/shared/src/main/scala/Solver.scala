@@ -18,7 +18,7 @@ trait SolverPieceOrderer {
    * @param board
    * @return
    */
-  def sortPieces(pieces: Map[Piece, Int], board:Board) = pieces.toList.sortBy {
+  def sortPieces(pieces: Map[Piece, Int], board: Board) = pieces.toList.sortBy {
     case (piece, numberOf) =>
       val estimate = piece.estimateAverageCapturedFields(numberOf)(board)
       //println(s"$piece $numberOf $estimate")
@@ -26,7 +26,7 @@ trait SolverPieceOrderer {
   }
 }
 
-case class Solver(val board: Board) extends SolverPieceOrderer{
+case class Solver(val board: Board) extends SolverPieceOrderer {
 
   import Solver._
 

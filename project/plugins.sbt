@@ -4,9 +4,7 @@ resolvers += Classpaths.sbtPluginReleases
 
 resolvers += Resolver.sonatypeRepo("releases")
 
-addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.99.7.1")
-
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.7.1")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.1")
 
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
 
