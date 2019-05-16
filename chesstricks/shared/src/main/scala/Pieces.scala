@@ -1,4 +1,10 @@
 
+sealed trait Piece {
+  def letter: Char
+  def possibleMoves(position: Position)(implicit board: Board): Seq[Position]
+  def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int
+}
+
 object Piece {
   def movesHorizontally(position: Position)(implicit board: Board): Seq[Position] = for {
     x <- 0 until board.X if x != position.x
@@ -36,18 +42,11 @@ object Piece {
 
   def movesAlongRankAndFile(position: Position)(implicit board: Board): Seq[Position] =
     movesHorizontally(position) ++ movesVertically(position)
-}
-
-sealed trait Piece {
-  val letter: Char = this.getClass.getName.head
-
-  def possibleMoves(position: Position)(implicit board: Board): Seq[Position]
-
-  def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int
-}
 
 
-object Queen extends Piece {
+
+case object Queen extends Piece {
+  def letter: Char = 'Q'
   override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] =
     Piece.movesAlongRankAndFile(position)(board) ++ Piece.movesDiagonally(position)(board)
 
@@ -55,25 +54,29 @@ object Queen extends Piece {
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = (numberOf * 4 * (board.X + board.Y) / 2) toInt
 }
 
-object King extends Piece {
+case object King extends Piece {
+  def letter: Char = 'K'
   override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = Piece.movedInAllDirectionsByOneField(position)(board)
 
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = numberOf * 7
 }
 
-object Bishop extends Piece {
+case object Bishop extends Piece {
+  def letter: Char = 'B'
   override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = Piece.movesDiagonally(position)(board)
 
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = (numberOf * 2 * (board.X + board.Y - 2) / 2) toInt
 }
 
-object Rook extends Piece {
+case object Rook extends Piece {
+  def letter: Char = 'R'
   override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = Piece.movesAlongRankAndFile(position)(board)
 
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = numberOf * (board.X + board.Y - 2)
 }
 
-object Knight extends Piece {
+case object Knight extends Piece {
+  override val letter: Char = 'k'  
   override def possibleMoves(position: Position)(implicit board: Board): Seq[Position] = {
 
     val moves = Seq(
@@ -90,13 +93,12 @@ object Knight extends Piece {
     moves.flatMap(board.applyMoveToPosition(_, position))
 
   }
-
-  override val letter: Char = 'k'
-
+  
   override def estimateAverageCapturedFields(numberOf: Int)(implicit board: Board): Int = numberOf * 8
+}
 }
 
 object Pieces {
-  def get = List(Queen, Bishop, Rook, King, Knight)
+  def get:List[Piece] = List(Piece.Queen, Piece.Bishop, Piece.Rook, Piece.King, Piece.Knight)
 }
 

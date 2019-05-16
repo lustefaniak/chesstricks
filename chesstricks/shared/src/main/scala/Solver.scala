@@ -1,4 +1,4 @@
-import scala.collection.immutable.BitSet
+import scala.collection.immutable._
 
 object Solver {
 

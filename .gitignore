@@ -51,3 +51,6 @@ src_managed/
 
 
 .DS_Store
+
+.metals
+.bloop
