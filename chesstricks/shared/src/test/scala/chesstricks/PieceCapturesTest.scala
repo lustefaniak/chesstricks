@@ -1,5 +1,7 @@
+package chesstricks
+
 import utest._
-import scala.concurrent.ExecutionContext.global
+import Piece._
 
 object PieceCapturesTest extends TestSuite {
 

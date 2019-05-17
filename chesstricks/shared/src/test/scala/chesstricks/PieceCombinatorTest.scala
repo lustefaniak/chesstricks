@@ -1,6 +1,8 @@
+package chesstricks
+
 import utest._
 import scala.collection.immutable.BitSet
-
+import Piece._
 
 object PieceCombinatorTest extends TestSuite {
 

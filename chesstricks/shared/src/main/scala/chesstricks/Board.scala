@@ -1,3 +1,5 @@
+package chesstricks
+
 import scala.collection.immutable.BitSet
 
 object Position {
@@ -21,11 +23,10 @@ case class Board(X: Int, Y: Int) extends Output {
 
   lazy val bitsetWithAllFields = BitSet((0 until numberOfFields).toSeq: _*)
 
-  def mapToValidPosition(position: Position): Option[Position] = {
+  def mapToValidPosition(position: Position): Option[Position] =
     if (position.x >= 0 && position.x < X && position.y >= 0 && position.y < Y)
       Some(position)
     else None
-  }
 
   def applyMoveToPosition(move: Move, currentPosition: Position): Option[Position] =
     Option(currentPosition.copy(x = currentPosition.x + move.deltaX, currentPosition.y + move.deltaY)).filter {
@@ -47,24 +48,20 @@ case class Board(X: Int, Y: Int) extends Output {
 
     combinations.foreach {
       case (piece, positions) =>
-        positions.filter(p => p >= 0 && p < numberOfFields).foreach {
-          pos =>
-            buffer(pos) = piece.letter
+        positions.filter(p => p >= 0 && p < numberOfFields).foreach { pos =>
+          buffer(pos) = piece.letter
         }
     }
 
     "+" + ("-" * X) + "+" :: buffer.sliding(X, X).toSeq.reverse.map(l => "|" + l.mkString + "|").toList ::: "+" + ("-" * X) + "+" :: Nil
   }
 
-  def prettyPrint(combinations: Map[Piece, BitSet]): Unit = {
+  def prettyPrint(combinations: Map[Piece, BitSet]): Unit =
     output(prettyBoardGen(combinations).mkString("\n"))
-  }
 
   protected val _pieceCaptures = collection.mutable.Map[Piece, Map[Int, BitSet]]()
 
-  def pieceCaptures(piece: Piece) = {
+  def pieceCaptures(piece: Piece) =
     _pieceCaptures.getOrElseUpdate(piece, PieceCaptures.generate(piece)(this))
-  }
 
 }
-
