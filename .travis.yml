@@ -1,0 +1,26 @@
+language: scala
+sudo: required
+dist: xenial
+addons:
+  apt:
+    update: true
+
+jdk:
+  - openjdk8
+
+before_script:
+  - git fetch --tags
+
+script:
+  - sbt -Dfile.encoding=UTF8 +chesstricksJVM/test +chesstricksJS/test
+
+before_cache:
+  # Tricks to avoid unnecessary cache updates
+  - find $HOME/.sbt -name "*.lock" | xargs rm
+  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+
+# These directories are cached to S3 at the end of the build
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
