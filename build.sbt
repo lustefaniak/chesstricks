@@ -9,11 +9,11 @@ val chesstricks = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     version := "0.2.0",
     scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature", "-Xlint", "-language:postfixOps"),
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "utest"   % "0.6.7" % "test",
-      "com.lihaoyi" %% "acyclic"  % "0.1.9" % "provided",
+      "com.lihaoyi" %%% "utest"   % "0.6.9" % "test",
+      "com.lihaoyi" %% "acyclic"  % "0.2.0" % "provided",
       "org.rogach"  %%% "scallop" % "3.3.1"
     ),
-    addCompilerPlugin("com.lihaoyi" %% "acyclic" % "0.1.9"),
+    addCompilerPlugin("com.lihaoyi" %% "acyclic" % "0.2.0"),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     autoCompilerPlugins := true,
     Revolver.settings,
