@@ -9,7 +9,7 @@ val chesstricks = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     version := "0.2.0",
     scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature", "-Xlint", "-language:postfixOps"),
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "utest"   % "0.6.9" % "test",
+      "com.lihaoyi" %%% "utest"   % "0.7.1" % "test",
       "com.lihaoyi" %% "acyclic"  % "0.2.0" % "provided",
       "org.rogach"  %%% "scallop" % "3.3.1"
     ),
