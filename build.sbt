@@ -11,7 +11,7 @@ val chesstricks = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++= Seq(
       "com.lihaoyi" %%% "utest"   % "0.6.9" % "test",
       "com.lihaoyi" %% "acyclic"  % "0.2.0" % "provided",
-      "org.rogach"  %%% "scallop" % "3.2.0"
+      "org.rogach"  %%% "scallop" % "3.3.1"
     ),
     addCompilerPlugin("com.lihaoyi" %% "acyclic" % "0.2.0"),
     testFrameworks += new TestFramework("utest.runner.Framework"),
